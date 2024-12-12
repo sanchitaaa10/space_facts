@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Facts App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0a1931;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #00fff2;
+        }
+
+        .filter-section {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        select {
+            padding: 0.5rem;
+            font-size: 1rem;
+            border-radius: 5px;
+            background-color: #ffffff;
+        }
+
+        .facts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .fact-card {
+            background-color: #162447;
+            padding: 1.5rem;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .fact-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .fact-category {
+            color: #00fff2;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Amazing Space Facts</h1>
+        <div class="filter-section">
+            <label for="categoryFilter">Filter by Category:</label>
+            <select id="categoryFilter">
+                <option value="all">All Categories</option>
+            </select>
+        </div>
+        <div id="factsContainer" class="facts-grid"></div>
+    </div>
+
+    <script>
+        const spaceFacts = {
+            "spaceFacts": [
+                {
+                    "id": 1,
+                    "fact": "One million Earths could fit inside the Sun",
+                    "category": "Solar System"
+                },
+                {
+                    "id": 2,
+                    "fact": "A day on Venus is longer than its year",
+                    "category": "Planets"
+                },
+                {
+                    "id": 3,
+                    "fact": "The universe is estimated to be about 13.8 billion years old",
+                    "category": "Cosmology"
+                },
+                {
+                    "id": 4,
+                    "fact": "There are more stars in the universe than grains of sand on Earth",
+                    "category": "Stars"
+                },
+                {
+                    "id": 5,
+                    "fact": "The footprints on the Moon will last for 100 million years",
+                    "category": "Space Exploration"
+                },
+                {
+                    "id": 6,
+                    "fact": "The largest known star, UY Scuti, is 1,700 times larger than our Sun",
+                    "category": "Stars"
+                },
+                {
+                    "id": 7,
+                    "fact": "Space is completely silent as there is no air to carry sound waves",
+                    "category": "Space Physics"
+                },
+                {
+                    "id": 8,
+                    "fact": "The Hubble Space Telescope takes pictures from 540 kilometers above Earth",
+                    "category": "Space Technology"
+                },
+                {
+                    "id": 9,
+                    "fact": "Saturn's rings are mostly made of ice and rock",
+                    "category": "Planets"
+                },
+                {
+                    "id": 10,
+                    "fact": "Light from the Sun takes about 8 minutes to reach Earth",
+                    "category": "Space Physics"
+                },
+                {
+                    "id": 11,
+                    "fact": "There is a planet made of diamonds twice the size of Earth",
+                    "category": "Exoplanets"
+                },
+                {
+                    "id": 12,
+                    "fact": "The International Space Station travels at 17,500 mph",
+                    "category": "Space Technology"
+                },
+                {
+                    "id": 13,
+                    "fact": "A black hole's gravitational pull is so strong that even light cannot escape it",
+                    "category": "Celestial Objects"
+                },
+                {
+                    "id": 14,
+                    "fact": "Mars has the largest volcano in the solar system, Olympus Mons",
+                    "category": "Planets"
+                },
+                {
+                    "id": 15,
+                    "fact": "There are billions of galaxies in the observable universe",
+                    "category": "Cosmology"
+                },
+                {
+                    "id": 16,
+                    "fact": "Astronauts grow taller in space due to the lack of gravity",
+                    "category": "Space Biology"
+                },
+                {
+                    "id": 17,
+                    "fact": "The Milky Way galaxy is moving through space at 1.3 million mph",
+                    "category": "Galaxies"
+                },
+                {
+                    "id": 18,
+                    "fact": "Jupiter's Great Red Spot is a storm that has been raging for over 400 years",
+                    "category": "Planets"
+                },
+                {
+                    "id": 19,
+                    "fact": "Neutron stars can spin up to 600 times per second",
+                    "category": "Celestial Objects"
+                },
+                {
+                    "id": 20,
+                    "fact": "The coldest place in the universe is the Boomerang Nebula at -272°C",
+                    "category": "Space Phenomena"
+                }
+            ]
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const factsContainer = document.getElementById('factsContainer');
+            const categoryFilter = document.getElementById('categoryFilter');
+            
+            // Get unique categories and populate filter
+            const categories = [...new Set(spaceFacts.spaceFacts.map(fact => fact.category))];
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                categoryFilter.appendChild(option);
+            });
+
+            // Display facts function
+            function displayFacts(facts) {
+                factsContainer.innerHTML = '';
+                facts.forEach(fact => {
+                    const factCard = document.createElement('div');
+                    factCard.className = 'fact-card';
+                    factCard.innerHTML = `
+                        <div class="fact-category">${fact.category}</div>
+                        <div class="fact-text">${fact.fact}</div>
+                    `;
+                    factsContainer.appendChild(factCard);
+                });
+            }
+
+            // Initial display
+            displayFacts(spaceFacts.spaceFacts);
+
+            // Filter event listener
+            categoryFilter.addEventListener('change', (e) => {
+                const selectedCategory = e.target.value;
+                const filteredFacts = selectedCategory === 'all' 
+                    ? spaceFacts.spaceFacts 
+                    : spaceFacts.spaceFacts.filter(fact => fact.category === selectedCategory);
+                displayFacts(filteredFacts);
+            });
+        });
+    </script>
+</body>
+</html>
